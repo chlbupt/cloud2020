@@ -19,4 +19,4 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://eureka7001.com/eureka/ # 指向另一台eureka server服务器
+      defaultZone: http://eureka7001.com:7101/eureka/ # 指向另一台eureka server服务器
