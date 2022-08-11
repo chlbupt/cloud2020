@@ -1,0 +1,22 @@
+server:
+  port: 7101
+
+# 单机版
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    register-with-eureka: false # 自己就是服务中心，不需要向自己注册
+#    fetch-registry: false
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+# 集群版
+eureka:
+  instance:
+    hostname: eureka7001.com
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7002.com/eureka/ # 指向另一台eureka server服务器

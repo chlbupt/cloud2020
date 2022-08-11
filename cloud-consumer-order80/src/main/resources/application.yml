@@ -1,2 +1,13 @@
 server:
   port: 80
+
+spring:
+  application:
+    name: cloud-order-service
+
+eureka:
+  client:
+    reigster-with-eureka: true
+    fetch-register: true
+    service-url:
+      defaultZone: http://localhost:7101/eureka
