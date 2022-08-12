@@ -5,12 +5,19 @@ import com.atguigu.springcloud.entities.Payment;
 import com.atguigu.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
+@RequestMapping("payment")
 public class PaymentController {
     @Resource
     private PaymentService paymentService;
@@ -18,7 +25,12 @@ public class PaymentController {
     @Value("${server.port}")
     private String serverPort;
 
-    @PostMapping(value = "/payment/create")
+    // 服务发现
+    @Resource
+    private DiscoveryClient discoveryClient;
+
+
+    @PostMapping(value = "/create")
     public CommonResult create(@RequestBody Payment payment){
         int result = paymentService.create(payment);
         log.info("****插入结果：" + result);
@@ -30,7 +42,7 @@ public class PaymentController {
         }
     }
 
-    @GetMapping(value = "/payment/get/{id}")
+    @GetMapping(value = "/get/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id){
         Payment payment = paymentService.getPaymentById(id);
         log.info("****查询结果：" + payment);
@@ -40,6 +52,25 @@ public class PaymentController {
         }else{
             return new CommonResult(444, "没有对应记录, 查询id：" + id + ", serverPort" + serverPort, null);
         }
+    }
+
+    @GetMapping("discovery")
+    public Object discovery(){
+        List<String> services = discoveryClient.getServices();
+        services.forEach(System.out::println);
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        instances.forEach(instance -> {
+            ArrayList<Object> list = new ArrayList<>();
+            list.add(instance.getInstanceId());
+            list.add(instance.getHost());
+            list.add(instance.getPort());
+            list.add(instance.getUri());
+            System.out.println(list.stream().map(Object::toString)
+                    .collect(Collectors.joining("\t")));
+        });
+
+        return this.discoveryClient;
     }
 
 }
