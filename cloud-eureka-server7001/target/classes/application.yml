@@ -19,8 +19,8 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-#      defaultZone: http://eureka7002.com:7102/eureka/ # 指向另一台eureka server服务器，集群版
-      defaultZone: http://eureka7001.com:7101/eureka
+      defaultZone: http://eureka7002.com:7102/eureka/ # 指向另一台eureka server服务器，集群版
+#      defaultZone: http://eureka7001.com:7101/eureka
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 2000
