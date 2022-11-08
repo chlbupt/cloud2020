@@ -1,0 +1,22 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name: cloud-config-center-3344
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/wosiguwozai/cloud-config-center-3344.git
+          username: 1032326058@qq.com
+          password: aa590702
+          search-paths:
+            - springcloud-config
+        # 读取分支
+        label: main
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7101/eureka/
