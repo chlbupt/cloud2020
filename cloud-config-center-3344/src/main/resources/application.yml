@@ -27,8 +27,9 @@ eureka:
       defaultZone: http://eureka7001.com:7101/eureka/
 
 # 暴露bus刷新配置的端点
-manager:
+
+management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: bus-refresh
